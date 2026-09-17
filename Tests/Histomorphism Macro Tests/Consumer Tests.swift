@@ -1,4 +1,4 @@
-import Histomorphism_Derivation
+import Histomorphism_Macro
 import Testing
 
 @Histomorphism
