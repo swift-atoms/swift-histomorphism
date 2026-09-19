@@ -4,19 +4,18 @@ import PackageDescription
 
 let package = Package(
     name: "swift-histomorphism",
+    platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
         .library(name: "Histomorphism Macro", targets: ["Histomorphism Macro"]),
-        .library(name: "Histomorphism Macro Core", targets: ["Histomorphism Macro Core"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-functor.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-cofree.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-recursive.git", branch: "main"),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.2"..<"604.0.0"),
     ],
     targets: [
         .target(name: "Histomorphism Macro Core", dependencies: [
-            .product(name: "Cofree Macro Core", package: "swift-cofree"),
-            .product(name: "Recursive Macro Core", package: "swift-recursive"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
         ]),
@@ -29,7 +28,10 @@ let package = Package(
         .target(name: "Histomorphism Macro", dependencies: ["Histomorphism Macro Plugin"]),
         .testTarget(
             name: "Histomorphism Macro Tests",
-            dependencies: ["Histomorphism Macro"]
+            dependencies: [
+                .product(name: "Recursive Macro", package: "swift-recursive"),
+                .product(name: "Functor Base Macro", package: "swift-functor"),
+                .product(name: "Cofree Macro", package: "swift-cofree"),"Histomorphism Macro"]
         ),
     ],
     swiftLanguageModes: [.v6]
@@ -48,4 +50,9 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
     let package: [SwiftSetting] = []
 
     target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
+}
+
+// Consumer compilation must reject visibility regressions, even when other packages suppress warnings.
+for target in package.targets where target.type == .test || target.name.hasSuffix("Consumer Fixtures") {
+    target.swiftSettings = (target.swiftSettings ?? []) + [.treatAllWarnings(as: .error)]
 }

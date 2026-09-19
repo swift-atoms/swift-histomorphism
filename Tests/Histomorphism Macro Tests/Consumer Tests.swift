@@ -1,6 +1,12 @@
+import Cofree_Macro
+import Functor_Base_Macro
+import Recursive_Macro
 import Histomorphism_Macro
 import Testing
 
+@Cofree
+@FunctorBase
+@Recursive
 @Histomorphism
 private indirect enum Natural {
     case zero
