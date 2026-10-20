@@ -1,7 +1,7 @@
 import Cofree_Macro
 import Functor_Base_Macro
-import Recursive_Macro
 import Histomorphism_Macro
+import Recursive_Macro
 import Testing
 
 @Cofree
@@ -20,7 +20,7 @@ func `histomorphism exposes annotated history`() {
         (layer: Natural.Base<Natural.Cofree<Int>>) -> Int in
         switch layer {
         case .zero: 0
-        case let .successor(.cofree(child, _)): child + 1
+        case .successor(.cofree(let child, _)): child + 1
         }
     }
     #expect(count == 2)

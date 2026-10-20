@@ -1,7 +1,7 @@
 import Cofree_Macro
 import Functor_Base_Macro
-import Recursive_Macro
 import Histomorphism_Macro
+import Recursive_Macro
 import Testing
 
 @Cofree
@@ -17,7 +17,7 @@ private func fibonacci(_ layer: Count.Base<Count.Cofree<Int>>) -> Int {
     switch layer {
     case .zero: 0
     case .successor(.cofree(_, .zero)): 1
-    case let .successor(.cofree(previous, .successor(.cofree(beforePrevious, _)))): previous + beforePrevious
+    case .successor(.cofree(let previous, .successor(.cofree(let beforePrevious, _)))): previous + beforePrevious
     }
 }
 

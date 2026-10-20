@@ -5,9 +5,11 @@ public enum Derivation {}
 
 extension Derivation {
     public static func expansion(of declaration: EnumDeclSyntax) -> [DeclSyntax] {
-        let access = declaration.modifiers.contains { $0.name.tokenKind == .keyword(.public) }
+        let access =
+            declaration.modifiers.contains { $0.name.tokenKind == .keyword(.public) }
             ? "public " : ""
-        return ["""
+        return [
+            """
             \(raw: access)func histomorphism<Result>(
                 _ algebra: (Base<Cofree<Result>>) -> Result
             ) -> Result {
@@ -19,6 +21,7 @@ extension Derivation {
                 case let .cofree(result, _): return result
                 }
             }
-            """]
+            """
+        ]
     }
 }
