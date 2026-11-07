@@ -21,16 +21,20 @@ private func fibonacci(_ layer: Count.Base<Count.Cofree<Int>>) -> Int {
     }
 }
 
-@Suite
-struct `Histomorphism boundaries` {
-    @Test
-    func `the base case folds without history`() {
-        #expect(Count.zero.histomorphism(fibonacci) == 0)
-    }
+enum `Boundary Tests` {}
 
-    @Test
-    func `each layer sees two layers of history`() {
-        let ten = (0..<10).reduce(Count.zero) { value, _ in .successor(value) }
-        #expect(ten.histomorphism(fibonacci) == 55)
+extension `Boundary Tests` {
+    @Suite
+    struct `Histomorphism boundaries` {
+        @Test
+        func `the base case folds without history`() {
+            #expect(Count.zero.histomorphism(fibonacci) == 0)
+        }
+
+        @Test
+        func `each layer sees two layers of history`() {
+            let ten = (0..<10).reduce(Count.zero) { value, _ in .successor(value) }
+            #expect(ten.histomorphism(fibonacci) == 55)
+        }
     }
 }
