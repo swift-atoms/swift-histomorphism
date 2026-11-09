@@ -6,8 +6,10 @@ public enum Derivation {}
 extension Derivation {
     public static func expansion(of declaration: EnumDeclSyntax) -> [DeclSyntax] {
         let access =
-            declaration.modifiers.contains { $0.name.tokenKind == .keyword(.public) }
-            ? "public " : ""
+            declaration.modifiers.first {
+                $0.name.tokenKind == .keyword(.public) || $0.name.tokenKind == .keyword(.package)
+            }
+            .map { "\($0.name.text) " } ?? ""
         return [
             """
             \(raw: access)func histomorphism<Result>(

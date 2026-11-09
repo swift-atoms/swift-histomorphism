@@ -38,6 +38,9 @@ let package = Package(
                 .product(name: "Recursive Macro", package: "swift-recursive"),
                 .product(name: "Functor Base Macro", package: "swift-functor"),
                 .product(name: "Cofree Macro", package: "swift-cofree"), .target(name: "Histomorphism Macro"),
+                .target(name: "Histomorphism Macro Core"),
+                .product(name: "SwiftSyntax", package: "swift-syntax"),
+                .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
             ]
         ),
     ],
